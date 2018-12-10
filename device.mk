@@ -100,6 +100,10 @@ PRODUCT_COPY_FILES +=  \
 PRODUCT_PACKAGES += \
     libbt-vendor
 
+# Spectrum (for initial config)
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.spectrum.profile=0
+
 # Camera
 PRODUCT_PACKAGES += \
     libbson \
@@ -319,6 +323,7 @@ PRODUCT_PACKAGES += \
     init.mmi.rc \
     init.potter.rc \
     init.mmi.usb.rc \
+    init.spectrum.rc \
     init.qcom.rc \
     init.qcom.ril.sh
 
