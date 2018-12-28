@@ -13,5 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Dirac
+PRODUCT_PACKAGES += \
+	Dirac
+
 PRODUCT_MAKEFILES := \
     $(LOCAL_DIR)/lineage_potter.mk
