@@ -1,19 +1,19 @@
 [
   {
     "remote": "github",
-    "repository":  "GZR-Kernels/Optimus_Drunk_Potter",
+    "repository": "utsavbalar1231/IMMENSITY-Kernel",
     "target_path": "kernel/motorola/msm8953",
-    "branch": "9.0"
+    "branch": "EAS-cunt"
   },
   {
     "remote": "github",
     "repository": "BigTopKrazies/vendor_motorola_potter",
     "target_path": "vendor/motorola/potter",
-    "branch": "9.0"
+    "branch": "pie-caf"
   },
   {
-    "remote": "pixel",
-    "repository": "packages_resources_MotoActions",
+    "remote": "github",
+    "repository": "PixelExperience/packages_resources_MotoActions",
     "target_path": "packages/resources/MotoActions",
     "branch": "pie"
   }
