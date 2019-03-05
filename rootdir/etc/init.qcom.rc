@@ -830,11 +830,18 @@ on charger
 
 on property:sys.boot_completed=1
     write /dev/kmsg "Boot completed "
-    setprop sys.io.scheduler bfq
+    setprop sys.io.scheduler cfq
 
-    # scheduler settings
+    # Scheduler settings
     write /proc/sys/kernel/sched_window_stats_policy 3
     write /proc/sys/kernel/sched_ravg_hist_size 3
+    write /proc/sys/kernel/sched_upmigrate 95
+    write /proc/sys/kernel/sched_downmigrate 90
+    write /proc/sys/kernel/sched_group_upmigrate 100
+    write /proc/sys/kernel/sched_group_downmigrate 95
+    write /proc/sys/kernel/sched_select_prev_cpu_us 0
+    write /proc/sys/kernel/sched_freq_inc_notify 400000
+    write /proc/sys/kernel/sched_freq_dec_notify 400000
 
     # task packing settings
     write /sys/devices/system/cpu/cpu0/sched_static_cpu_pwr_cost 0
@@ -884,12 +891,13 @@ on property:sys.boot_completed=1
     # governor settings
     write /sys/devices/system/cpu/cpu0/online 1
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
-    write /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay "20000 1401600:40000"
-    write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 85
+    write /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay "18000 1036800:20000 1401600:40000"
+    write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 90
     write /sys/devices/system/cpu/cpufreq/interactive/timer_rate 20000
     write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 1401600
     write /sys/devices/system/cpu/cpufreq/interactive/io_is_busy 0
-    write /sys/devices/system/cpu/cpufreq/interactive/target_loads "85 1401600:80"
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/max_freq_hysteresis 39000
+    write /sys/devices/system/cpu/cpufreq/interactive/target_loads "85 70:1036800 1401600:80"
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 652800
 
     # re-enable thermal & BCL core_control now
@@ -911,16 +919,9 @@ on property:sys.boot_completed=1
     # Enable low power modes
     write /sys/module/lpm_levels/parameters/sleep_disabled 0
 
-    # SMP scheduler
-    write /proc/sys/kernel/sched_upmigrate 85
-    write /proc/sys/kernel/sched_downmigrate 85
-    write /proc/sys/kernel/sched_upmigrate_min_nice 19
-
-    # Enable sched guided freq control
-    write /sys/devices/system/cpu/cpufreq/interactive/use_sched_load 1
-    write /sys/devices/system/cpu/cpufreq/interactive/use_migration_notif 1
-    write /proc/sys/kernel/sched_freq_inc_notify 200000
-    write /proc/sys/kernel/sched_freq_dec_notify 200000
+    # Disable sched boost
+    chmod 0444 /proc/sys/kernel/sched_boost
+    write /proc/sys/kernel/sched_boost 0
 
     # Log kernel wake-up source
     write /sys/module/msm_show_resume_irq/parameters/debug_mask 1
