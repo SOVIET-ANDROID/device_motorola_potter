@@ -18,16 +18,18 @@
 # Inherit from those products. Most specific first.
 $(call inherit-product, device/motorola/potter/full_potter.mk)
 
-# Inherit some common ArrowOS stuff.
-$(call inherit-product, vendor/arrow/config/common.mk)
+# Inherit some common LeanOS stuff.
+$(call inherit-product, vendor/lean/config/common.mk)
+TARGET_GAPPS_ARCH := arm64
 
 # Boot animation
 TARGET_SCREEN_WIDTH := 1080
 TARGET_SCREEN_HEIGHT := 1920
+TARGET_BOOT_ANIMATION_RES := 1080
 
 ## Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := potter
-PRODUCT_NAME := arrow_potter
+PRODUCT_NAME := lean_potter
 PRODUCT_BRAND := motorola
 PRODUCT_MANUFACTURER := motorola
 

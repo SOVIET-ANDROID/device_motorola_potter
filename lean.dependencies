@@ -1,0 +1,27 @@
+ [
+  {
+     "remote"      : "github",  
+     "repository"  : "utsavbalar1231/CUNT-KERNEL",
+     "target_path" : "kernel/motorola/msm8953",
+     "branch"      : "hmp+"     
+  },
+  {
+     "remote"      : "github",
+     "repository"  : "ArrowOS-Devices/android_vendor_motorola_potter",
+     "target_path" : "vendor/motorola/potter",
+     "branch"      : "arrow-9.x"
+  },
+  {
+    "remote"       : "github",
+    "repository"   : "LineageOS/android_system_qcom",
+    "target_path"  : "system/qcom",
+    "branch"       : "lineage-16.0"
+  },
+
+  {
+    "remote"       : "github",
+    "repository"   : "RevengeOS-devices/packages_resources_MotoActions",
+    "target_path"  : "packages/resources/MotoActions",
+    "branch"       : "r9.0-caf"
+  }
+]
