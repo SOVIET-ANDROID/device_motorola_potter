@@ -17,17 +17,18 @@
 
 # Inherit from those products. Most specific first.
 $(call inherit-product, device/motorola/potter/full_potter.mk)
+$(call inherit-product, vendor/motorola/potter/potter-vendor.mk)
 
-# Inherit some common ArrowOS stuff.
-$(call inherit-product, vendor/arrow/config/common.mk)
+# Inherit some common Syberia-Project stuff.
+$(call inherit-product, vendor/syberia/config/common.mk)
+$(call inherit-product, vendor/syberia/config/telephony.mk)
 
 # Boot animation
-TARGET_SCREEN_WIDTH := 1080
-TARGET_SCREEN_HEIGHT := 1920
+TARGET_BOOT_ANIMATION_RES := 1080
 
 ## Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := potter
-PRODUCT_NAME := arrow_potter
+PRODUCT_NAME := syberia_potter
 PRODUCT_BRAND := motorola
 PRODUCT_MANUFACTURER := motorola
 
