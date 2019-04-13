@@ -484,6 +484,9 @@ on post-fs-data
     mkdir /data/vendor/vpp 0770 media media
 
     setprop vold.post_fs_data_done 1
+	
+    #PowerHal
+    chown system system /dev/cpu_dma_latency
 
 service vendor.charger /charger
     class charger
