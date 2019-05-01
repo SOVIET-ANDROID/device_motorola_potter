@@ -96,6 +96,13 @@ on init
     chown root system /sys/fs/cgroup/memory/bg/tasks
     chmod 0660 /sys/fs/cgroup/memory/bg/tasks
 
+    # Apply SCHED-TUNE values for EAS Setup
+    write /dev/stune/foreground/schedtune.prefer_idle 1
+    write /dev/stune/top-app/schedtune.prefer_idle 1
+    write /dev/stune/top-app/schedtune.boost 10
+    write /dev/stune/rt/schedtune.boost 10
+    write /dev/stune/rt/schedtune.prefer_idle 1
+
 on early-boot
     # set RLIMIT_MEMLOCK to 64MB
     setrlimit 8 67108864 67108864
@@ -290,7 +297,6 @@ on boot
     chmod 0664 /sys/class/graphics/fb0/msm_cmd_autorefresh_en
 
     write /dev/cpuset/top-app/cpus 0-7
-    write /dev/cpuset/top-app/boost/cpus 4-7
     write /dev/cpuset/background/cpus 0-1
     write /dev/cpuset/system-background/cpus 0-3
 
@@ -850,7 +856,7 @@ on charger
 
 on property:sys.boot_completed=1
     write /dev/kmsg "Boot completed "
-    setprop sys.io.scheduler bfq
+    setprop sys.io.scheduler maple
 
     # scheduler settings
     write /proc/sys/kernel/sched_window_stats_policy 3
@@ -894,7 +900,7 @@ on property:sys.boot_completed=1
     write /sys/class/devfreq/soc:qcom,cpubw/min_freq 1611
     write /sys/class/devfreq/soc:qcom,gpubw/bw_hwmon/io_percent 40
 
-    # disable thermal & BCL core_control to update interactive gov settings
+    # disable thermal & BCL core_control to update gov settings
     write /sys/module/msm_thermal/core_control/enabled 0
     write /sys/devices/soc/soc:qcom,bcl/mode "disable"
     write /sys/devices/soc/soc:qcom,bcl/hotplug_mask 0
@@ -903,14 +909,9 @@ on property:sys.boot_completed=1
 
     # governor settings
     write /sys/devices/system/cpu/cpu0/online 1
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
-    write /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay "20000 1401600:40000"
-    write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 85
-    write /sys/devices/system/cpu/cpufreq/interactive/timer_rate 20000
-    write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 1401600
-    write /sys/devices/system/cpu/cpufreq/interactive/io_is_busy 0
-    write /sys/devices/system/cpu/cpufreq/interactive/target_loads "85 1401600:80"
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "schedutil"
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 652800
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 2016000
 
     # re-enable thermal & BCL core_control now
     write /sys/module/msm_thermal/core_control/enabled 1
@@ -936,21 +937,16 @@ on property:sys.boot_completed=1
     write /proc/sys/kernel/sched_downmigrate 85
     write /proc/sys/kernel/sched_upmigrate_min_nice 19
 
-    # Enable sched guided freq control
-    write /sys/devices/system/cpu/cpufreq/interactive/use_sched_load 1
-    write /sys/devices/system/cpu/cpufreq/interactive/use_migration_notif 1
-    write /proc/sys/kernel/sched_freq_inc_notify 200000
-    write /proc/sys/kernel/sched_freq_dec_notify 200000
-
-    # Log kernel wake-up source
-    write /sys/module/msm_show_resume_irq/parameters/debug_mask 1
-
-    write /sys/module/process_reclaim/parameters/enable_process_reclaim 1
-    write /sys/module/process_reclaim/parameters/pressure_max 70
-    write /sys/module/process_reclaim/parameters/swap_opt_eff 30
-    write /sys/module/process_reclaim/parameters/pressure_min 50
-    write /sys/module/process_reclaim/parameters/per_swap_size 512
+    write /sys/module/process_reclaim/parameters/enable_process_reclaim 0
     write /sys/module/lowmemorykiller/parameters/minfree "15360,19200,23040,26880,34415,43737"
+
+    write /proc/sys/fs/dir-notify-enable 0
+    write /proc/sys/fs/lease-break-time 30
+   
+    # A couple of minor kernel entropy tweaks & enhancements for a slight UI  responsivness boost;
+    write /proc/sys/kernel/random/read_wakeup_threshold 128
+    write /proc/sys/kernel/random/urandom_min_reseed_secs 96
+    write /proc/sys/kernel/random/write_wakeup_threshold 1024
 
     #Reset the "read ahead" setting for system patition
     # result: ext4: 32KB, dm_verity:64KB, block layer: 128KB
@@ -958,9 +954,9 @@ on property:sys.boot_completed=1
     write /sys/module/dm_verity/parameters/prefetch_cluster 65536
 
     write /sys/block/mmcblk0/bdi/read_ahead_kb 128
-    write /sys/block/mmcblk0/queue/read_ahead_kb 128
-    write /sys/block/dm-0/queue/read_ahead_kb 128
-    write /sys/block/dm-1/queue/read_ahead_kb 128
+    write /sys/block/mmcblk0/queue/read_ahead_kb 256
+    write /sys/block/dm-0/queue/read_ahead_kb 256
+    write /sys/block/dm-1/queue/read_ahead_kb 256
     write /sys/block/mmcblk0rpmb/bdi/read_ahead_kb 128
     write /sys/block/mmcblk0rpmb/queue/read_ahead_kb 128
     write /sys/block/mmcblk0/queue/iosched/back_seek_penalty 1
