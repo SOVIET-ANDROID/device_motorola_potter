@@ -170,7 +170,8 @@ lib/libYuvSkia.so
 vendor/bin/audioflacapp
 vendor/bin/esepmdaemon
 vendor/bin/mm-pp-dpps
-vendor/bin/perfd
+vendor/lib/libqti-perfd-client.so
+vendor/lib64/libqti-perfd-client.so
 vendor/bin/msm_irqbalance
 vendor/etc/msm_irqbalance.conf
 vendor/bin/qseeproxydaemon
@@ -665,12 +666,10 @@ vendor/lib/libqomx_jpegdec.so
 vendor/lib/libqomx_jpegenc.so
 vendor/lib/libqomx_jpegenc_pipe.so
 vendor/lib/libQSEEComAPI.so
-vendor/lib/libqti_performance.so
 vendor/lib/libqti-at.so
 vendor/lib/libqti-gt.so
 vendor/lib/libqti-iop.so
 vendor/lib/libqti-iop-client.so
-vendor/lib/libqti-perfd-client.so
 vendor/lib/libQtiTether.so
 vendor/lib/libquipc_os_api.so
 vendor/lib/librcc.so
