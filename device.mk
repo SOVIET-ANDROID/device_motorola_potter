@@ -309,7 +309,7 @@ PRODUCT_PACKAGES += \
 
 # Power
 PRODUCT_PACKAGES += \
-    android.hardware.power@1.3-service.crosshatch-libperfmg
+    android.hardware.power@1.3-service.msm8953-libperfmg
 
 # Qualcomm
 PRODUCT_COPY_FILES += \
