@@ -171,6 +171,8 @@ vendor/bin/audioflacapp
 vendor/bin/esepmdaemon
 vendor/bin/mm-pp-dpps
 vendor/bin/perfd
+vendor/bin/msm_irqbalance
+vendor/etc/msm_irqbalance.conf
 vendor/bin/qseeproxydaemon
 vendor/bin/qseeproxysampledaemon
 vendor/bin/qti
